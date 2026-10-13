@@ -1,0 +1,1802 @@
+{
+ "name": "제목 없음",
+ "DesktopAudioDevice1": {
+  "prev_ver": 537001986,
+  "name": "데스크탑 오디오",
+  "uuid": "665031b0-7e84-4afe-bd8f-451af4ad2799",
+  "id": "coreaudio_output_capture",
+  "versioned_id": "coreaudio_output_capture",
+  "settings": {
+   "device_id": "default"
+  },
+  "mixers": 255,
+  "sync": 0,
+  "flags": 0,
+  "volume": 5.4239644668996334e-05,
+  "balance": 0.5,
+  "enabled": true,
+  "muted": false,
+  "push-to-mute": false,
+  "push-to-mute-delay": 0,
+  "push-to-talk": false,
+  "push-to-talk-delay": 0,
+  "hotkeys": {
+   "libobs.mute": [],
+   "libobs.unmute": [],
+   "libobs.push-to-mute": [],
+   "libobs.push-to-talk": []
+  },
+  "deinterlace_mode": 0,
+  "deinterlace_field_order": 0,
+  "monitoring_type": 0,
+  "private_settings": {}
+ },
+ "AuxAudioDevice1": {
+  "prev_ver": 537001986,
+  "name": "마이크/Aux",
+  "uuid": "d5ca1feb-f8b5-4c98-aec4-d5d56ae17907",
+  "id": "coreaudio_input_capture",
+  "versioned_id": "coreaudio_input_capture",
+  "settings": {
+   "device_id": "BuiltInMicrophoneDevice"
+  },
+  "mixers": 255,
+  "sync": 0,
+  "flags": 0,
+  "volume": 1.0,
+  "balance": 0.5,
+  "enabled": true,
+  "muted": false,
+  "push-to-mute": false,
+  "push-to-mute-delay": 0,
+  "push-to-talk": false,
+  "push-to-talk-delay": 0,
+  "hotkeys": {
+   "libobs.mute": [],
+   "libobs.unmute": [],
+   "libobs.push-to-mute": [],
+   "libobs.push-to-talk": []
+  },
+  "deinterlace_mode": 0,
+  "deinterlace_field_order": 0,
+  "monitoring_type": 0,
+  "private_settings": {}
+ },
+ "groups": [],
+ "scene_order": [
+  {
+   "name": "얼굴 + 모니터 (가격X)"
+  },
+  {
+   "name": "얼굴 + 모니터 (가격O)"
+  },
+  {
+   "name": "카메라 확대"
+  },
+  {
+   "name": "모니터"
+  },
+  {
+   "name": "얼굴"
+  },
+  {
+   "name": "모니터 + 얼굴"
+  }
+ ],
+ "current_scene": "얼굴 + 모니터 (가격X)",
+ "current_program_scene": "얼굴 + 모니터 (가격X)",
+ "canvases": [],
+ "current_transition": "서서히 사라지기",
+ "transition_duration": 300,
+ "transitions": [],
+ "quick_transitions": [
+  {
+   "name": "자르기",
+   "duration": 300,
+   "hotkeys": [],
+   "id": 1,
+   "fade_to_black": false
+  },
+  {
+   "name": "서서히 사라지기",
+   "duration": 300,
+   "hotkeys": [],
+   "id": 2,
+   "fade_to_black": false
+  },
+  {
+   "name": "서서히 사라지기",
+   "duration": 300,
+   "hotkeys": [],
+   "id": 3,
+   "fade_to_black": true
+  }
+ ],
+ "saved_projectors": [],
+ "preview_locked": false,
+ "scaling_enabled": false,
+ "scaling_level": -1,
+ "scaling_off_x": 0.0,
+ "scaling_off_y": 0.0,
+ "virtual-camera": {
+  "type2": 3
+ },
+ "modules": {
+  "scripts-tool": [],
+  "output-timer": {
+   "streamTimerHours": 0,
+   "streamTimerMinutes": 0,
+   "streamTimerSeconds": 30,
+   "recordTimerHours": 0,
+   "recordTimerMinutes": 0,
+   "recordTimerSeconds": 30,
+   "autoStartStreamTimer": false,
+   "autoStartRecordTimer": false,
+   "pauseRecordTimer": true
+  },
+  "auto-scene-switcher": {
+   "interval": 300,
+   "non_matching_scene": "",
+   "switch_if_not_matching": false,
+   "active": false,
+   "switches": []
+  }
+ },
+ "resolution": {
+  "x": 1920,
+  "y": 1080
+ },
+ "version": 2,
+ "sources": [
+  {
+   "prev_ver": 537001986,
+   "name": "가격 O 배너",
+   "uuid": "a64ec165-c247-4897-af4b-d74f1a0583f2",
+   "id": "slideshow",
+   "versioned_id": "slideshow_v2",
+   "settings": {
+    "files": [
+     {
+      "value": "/Users/jong_e/Desktop/code/pudufuOS/design-3/design/assets/out/academy-live/obs/2_혜택 공개 후/",
+      "uuid": "4d4fded6-97a5-44bf-a049-fd2be475fa58",
+      "selected": false,
+      "hidden": false
+     }
+    ],
+    "slide_time": 5000,
+    "use_custom_size": "720x1440"
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "SlideShow.PlayPause": [],
+    "SlideShow.Restart": [],
+    "SlideShow.Stop": [],
+    "SlideShow.NextSlide": [],
+    "SlideShow.PreviousSlide": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "가격 X 배너",
+   "uuid": "32417efc-cc16-49aa-a1b2-08d23d923623",
+   "id": "slideshow",
+   "versioned_id": "slideshow_v2",
+   "settings": {
+    "files": [
+     {
+      "value": "/Users/jong_e/Desktop/code/pudufuOS/design-3/design/assets/out/academy-live/obs/1_혜택 공개 전/",
+      "uuid": "1633de28-3967-489b-ba61-c98110dc08dc",
+      "selected": false,
+      "hidden": false
+     }
+    ],
+    "slide_time": 5000,
+    "use_custom_size": "720x1440"
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "SlideShow.PlayPause": [],
+    "SlideShow.Restart": [],
+    "SlideShow.Stop": [],
+    "SlideShow.NextSlide": [],
+    "SlideShow.PreviousSlide": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "노트북 웹",
+   "uuid": "12741953-cf2b-4550-bec7-459ebb8459fb",
+   "id": "macos-avcapture",
+   "versioned_id": "macos-avcapture",
+   "settings": {
+    "device_name": "FaceTime HD 카메라",
+    "device": "EAB7A68F-EC2B-4487-AADF-D8A91C1CB782"
+   },
+   "mixers": 255,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "libobs.mute": [],
+    "libobs.unmute": [],
+    "libobs.push-to-mute": [],
+    "libobs.push-to-talk": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "모니터",
+   "uuid": "e851d7e5-e5fe-4b5d-8c2e-1c8145a0c47d",
+   "id": "scene",
+   "versioned_id": "scene",
+   "settings": {
+    "id_counter": 1,
+    "custom_size": false,
+    "items": [
+     {
+      "name": "모니터 화면",
+      "source_uuid": "9a329cf3-454b-4f1e-ba32-c3f39049e7a9",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 1,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": -1.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "scale_rel": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "bounds_rel": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     }
+    ]
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "OBSBasic.SelectScene": [
+     {
+      "key": "OBS_KEY_F2"
+     }
+    ],
+    "libobs.show_scene_item.1": [],
+    "libobs.hide_scene_item.1": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "모니터 화면",
+   "uuid": "9a329cf3-454b-4f1e-ba32-c3f39049e7a9",
+   "id": "screen_capture",
+   "versioned_id": "screen_capture",
+   "settings": {
+    "display_uuid": "37D8832A-2D66-02CA-B9F7-8F30A301B230",
+    "hide_obs": false
+   },
+   "mixers": 255,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "libobs.mute": [],
+    "libobs.unmute": [],
+    "libobs.push-to-mute": [],
+    "libobs.push-to-talk": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "모니터 + 얼굴",
+   "uuid": "f3300e4e-6fec-4a21-b9da-c1d3b49e7bb7",
+   "id": "scene",
+   "versioned_id": "scene",
+   "settings": {
+    "id_counter": 4,
+    "custom_size": false,
+    "items": [
+     {
+      "name": "모니터 화면",
+      "source_uuid": "9a329cf3-454b-4f1e-ba32-c3f39049e7a9",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 1,
+      "group_item_backup": false,
+      "pos": {
+       "x": 136.0,
+       "y": 29.0
+      },
+      "pos_rel": {
+       "x": -1.525925874710083,
+       "y": -0.9462962746620178
+      },
+      "scale": {
+       "x": 0.5625,
+       "y": 0.5627777576446533
+      },
+      "scale_rel": {
+       "x": 0.5625,
+       "y": 0.5627777576446533
+      },
+      "bounds": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "bounds_rel": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "노트북 웹",
+      "source_uuid": "12741953-cf2b-4550-bec7-459ebb8459fb",
+      "visible": false,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 2,
+      "group_item_backup": false,
+      "pos": {
+       "x": 1579.0,
+       "y": 888.0
+      },
+      "pos_rel": {
+       "x": 1.1462962627410889,
+       "y": 0.644444465637207
+      },
+      "scale": {
+       "x": 0.26640623807907104,
+       "y": 0.2666666805744171
+      },
+      "scale_rel": {
+       "x": 0.26640623807907104,
+       "y": 0.2666666805744171
+      },
+      "bounds": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "bounds_rel": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "하단 띠배너",
+      "source_uuid": "1af56f4e-e6c1-4aec-bb66-2dc36c98f89c",
+      "visible": false,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 4,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": -1.0
+      },
+      "scale": {
+       "x": 0.75,
+       "y": 0.75
+      },
+      "scale_rel": {
+       "x": 0.75,
+       "y": 0.75
+      },
+      "bounds": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "bounds_rel": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     }
+    ]
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "OBSBasic.SelectScene": [
+     {
+      "key": "OBS_KEY_F4"
+     }
+    ],
+    "libobs.show_scene_item.1": [],
+    "libobs.hide_scene_item.1": [],
+    "libobs.show_scene_item.2": [],
+    "libobs.hide_scene_item.2": [],
+    "libobs.show_scene_item.4": [],
+    "libobs.hide_scene_item.4": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "얼굴",
+   "uuid": "8c1ceaeb-096a-4065-9433-7e88fa7a133c",
+   "id": "scene",
+   "versioned_id": "scene",
+   "settings": {
+    "id_counter": 1,
+    "custom_size": false,
+    "items": [
+     {
+      "name": "노트북 웹",
+      "source_uuid": "12741953-cf2b-4550-bec7-459ebb8459fb",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 1,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": -1.0
+      },
+      "scale": {
+       "x": 1.5,
+       "y": 1.5
+      },
+      "scale_rel": {
+       "x": 1.5,
+       "y": 1.5
+      },
+      "bounds": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "bounds_rel": {
+       "x": 0.0,
+       "y": 0.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     }
+    ]
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "OBSBasic.SelectScene": [],
+    "libobs.show_scene_item.1": [],
+    "libobs.hide_scene_item.1": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "얼굴 + 모니터 (가격O)",
+   "uuid": "28b2ed1d-6861-4fe7-8234-00e3f0bff1cf",
+   "id": "scene",
+   "versioned_id": "scene",
+   "settings": {
+    "id_counter": 6,
+    "custom_size": false,
+    "items": [
+     {
+      "name": "macOS 화면 캡쳐",
+      "source_uuid": "3b234f16-5ffe-41e5-90bb-2664121dd25e",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 1,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 108.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": -0.800000011920929
+      },
+      "scale": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "scale_rel": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "bounds": {
+       "x": 1536.0,
+       "y": 864.0
+      },
+      "bounds_rel": {
+       "x": 2.844444513320923,
+       "y": 1.600000023841858
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "웹캠",
+      "source_uuid": "be41def3-6cfd-41b0-9355-7abad3cb9a49",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 2,
+      "group_item_backup": false,
+      "pos": {
+       "x": 1548.0,
+       "y": 770.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds": {
+       "x": 360.0,
+       "y": 202.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "가격 O 배너",
+      "source_uuid": "a64ec165-c247-4897-af4b-d74f1a0583f2",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 3,
+      "group_item_backup": false,
+      "pos": {
+       "x": 1548.0,
+       "y": 38.0
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 360.0,
+       "y": 720.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "하단 띠배너",
+      "source_uuid": "1af56f4e-e6c1-4aec-bb66-2dc36c98f89c",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 5,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 990.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": 0.8333333730697632
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "scale_rel": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds_rel": {
+       "x": 0.0018518518190830946,
+       "y": 0.0018518518190830946
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "프드프 로고",
+      "source_uuid": "cc355f76-8ad3-4615-ac01-995e012bb8d1",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 6,
+      "group_item_backup": false,
+      "pos": {
+       "x": -700.0,
+       "y": 25.0
+      },
+      "pos_rel": {
+       "x": -3.0740740299224854,
+       "y": -0.9537037014961243
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "scale_rel": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds_rel": {
+       "x": 0.0018518518190830946,
+       "y": 0.0018518518190830946
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     }
+    ]
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "OBSBasic.SelectScene": [],
+    "libobs.show_scene_item.1": [],
+    "libobs.hide_scene_item.1": [],
+    "libobs.show_scene_item.2": [],
+    "libobs.hide_scene_item.2": [],
+    "libobs.show_scene_item.3": [],
+    "libobs.hide_scene_item.3": [],
+    "libobs.show_scene_item.5": [],
+    "libobs.hide_scene_item.5": [],
+    "libobs.show_scene_item.6": [],
+    "libobs.hide_scene_item.6": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+   "private_settings": {},
+   "filters": [
+    {
+     "prev_ver": 537001986,
+     "name": "이미지 마스크/혼합",
+     "uuid": "f8182c87-0e02-4611-a54a-ab751fbb9c9b",
+     "id": "mask_filter",
+     "versioned_id": "mask_filter_v2",
+     "settings": {},
+     "mixers": 0,
+     "sync": 0,
+     "flags": 0,
+     "volume": 1.0,
+     "balance": 0.5,
+     "enabled": true,
+     "muted": false,
+     "push-to-mute": false,
+     "push-to-mute-delay": 0,
+     "push-to-talk": false,
+     "push-to-talk-delay": 0,
+     "hotkeys": {},
+     "deinterlace_mode": 0,
+     "deinterlace_field_order": 0,
+     "monitoring_type": 0,
+     "private_settings": {}
+    }
+   ]
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "얼굴 + 모니터 (가격X)",
+   "uuid": "76689008-9a0b-4d98-b9d1-8bddc1773d92",
+   "id": "scene",
+   "versioned_id": "scene",
+   "settings": {
+    "id_counter": 12,
+    "custom_size": false,
+    "items": [
+     {
+      "name": "macOS 화면 캡쳐",
+      "source_uuid": "3b234f16-5ffe-41e5-90bb-2664121dd25e",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 1,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 108.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": -0.800000011920929
+      },
+      "scale": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "scale_rel": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "bounds": {
+       "x": 1536.0,
+       "y": 864.0
+      },
+      "bounds_rel": {
+       "x": 2.844444513320923,
+       "y": 1.600000023841858
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "웹캠",
+      "source_uuid": "be41def3-6cfd-41b0-9355-7abad3cb9a49",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 2,
+      "group_item_backup": false,
+      "pos": {
+       "x": 1548.0,
+       "y": 770.0
+      },
+      "scale": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds": {
+       "x": 360.0,
+       "y": 202.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "가격 X 배너",
+      "source_uuid": "32417efc-cc16-49aa-a1b2-08d23d923623",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 8,
+      "group_item_backup": false,
+      "pos": {
+       "x": 1548.0,
+       "y": 38.0
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 360.0,
+       "y": 720.0
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "하단 띠배너",
+      "source_uuid": "1af56f4e-e6c1-4aec-bb66-2dc36c98f89c",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 11,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 990.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": 0.8333333730697632
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "scale_rel": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds_rel": {
+       "x": 0.0018518518190830946,
+       "y": 0.0018518518190830946
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "프드프 로고",
+      "source_uuid": "cc355f76-8ad3-4615-ac01-995e012bb8d1",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 12,
+      "group_item_backup": false,
+      "pos": {
+       "x": -700.0,
+       "y": 25.0
+      },
+      "pos_rel": {
+       "x": -3.0740740299224854,
+       "y": -0.9537037014961243
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "scale_rel": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds_rel": {
+       "x": 0.0018518518190830946,
+       "y": 0.0018518518190830946
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     }
+    ]
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "OBSBasic.SelectScene": [
+     {
+      "key": "OBS_KEY_F3"
+     }
+    ],
+    "libobs.show_scene_item.1": [],
+    "libobs.hide_scene_item.1": [],
+    "libobs.show_scene_item.2": [],
+    "libobs.hide_scene_item.2": [],
+    "libobs.show_scene_item.8": [],
+    "libobs.hide_scene_item.8": [],
+    "libobs.show_scene_item.11": [],
+    "libobs.hide_scene_item.11": [],
+    "libobs.show_scene_item.12": [],
+    "libobs.hide_scene_item.12": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+   "private_settings": {},
+   "filters": [
+    {
+     "prev_ver": 537001986,
+     "name": "이미지 마스크/혼합",
+     "uuid": "1abe6557-cbeb-41c4-a5f5-86a193623665",
+     "id": "mask_filter",
+     "versioned_id": "mask_filter_v2",
+     "settings": {},
+     "mixers": 0,
+     "sync": 0,
+     "flags": 0,
+     "volume": 1.0,
+     "balance": 0.5,
+     "enabled": true,
+     "muted": false,
+     "push-to-mute": false,
+     "push-to-mute-delay": 0,
+     "push-to-talk": false,
+     "push-to-talk-delay": 0,
+     "hotkeys": {},
+     "deinterlace_mode": 0,
+     "deinterlace_field_order": 0,
+     "monitoring_type": 0,
+     "private_settings": {}
+    }
+   ]
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "웹캠",
+   "uuid": "be41def3-6cfd-41b0-9355-7abad3cb9a49",
+   "id": "macos-avcapture",
+   "versioned_id": "macos-avcapture",
+   "settings": {
+    "device_name": "FaceTime HD 카메라",
+    "supported_format": "MTI4MHg3MjAgMzAuMDAwLTMwLjAwMCAyIDg3NTcwNDQzOA==",
+    "device": "EAB7A68F-EC2B-4487-AADF-D8A91C1CB782",
+    "use_preset": true,
+    "preset": "AVCaptureSessionPresetHigh"
+   },
+   "mixers": 255,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "libobs.mute": [],
+    "libobs.unmute": [],
+    "libobs.push-to-mute": [],
+    "libobs.push-to-talk": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {},
+   "filters": [
+    {
+     "prev_ver": 537001986,
+     "name": "이미지 마스크/혼합",
+     "uuid": "42434410-3105-4ee2-b606-00b6c6b158db",
+     "id": "mask_filter",
+     "versioned_id": "mask_filter_v2",
+     "settings": {},
+     "mixers": 0,
+     "sync": 0,
+     "flags": 0,
+     "volume": 1.0,
+     "balance": 0.5,
+     "enabled": true,
+     "muted": false,
+     "push-to-mute": false,
+     "push-to-mute-delay": 0,
+     "push-to-talk": false,
+     "push-to-talk-delay": 0,
+     "hotkeys": {},
+     "deinterlace_mode": 0,
+     "deinterlace_field_order": 0,
+     "monitoring_type": 0,
+     "private_settings": {}
+    }
+   ]
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "카메라 확대",
+   "uuid": "d30859e1-5b2c-4d5e-b98d-8faf5bf74c18",
+   "id": "scene",
+   "versioned_id": "scene",
+   "settings": {
+    "id_counter": 7,
+    "custom_size": false,
+    "items": [
+     {
+      "name": "macOS 화면 캡쳐",
+      "source_uuid": "3b234f16-5ffe-41e5-90bb-2664121dd25e",
+      "visible": false,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 1,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 108.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": -0.800000011920929
+      },
+      "scale": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "scale_rel": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "bounds": {
+       "x": 1536.0,
+       "y": 864.0
+      },
+      "bounds_rel": {
+       "x": 2.844444513320923,
+       "y": 1.600000023841858
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "웹캠",
+      "source_uuid": "be41def3-6cfd-41b0-9355-7abad3cb9a49",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 2,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 108.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": -0.800000011920929
+      },
+      "scale": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "scale_rel": {
+       "x": 0.6000000238418579,
+       "y": 0.6000000238418579
+      },
+      "bounds": {
+       "x": 1536.0,
+       "y": 864.0
+      },
+      "bounds_rel": {
+       "x": 2.844444513320923,
+       "y": 1.600000023841858
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 0
+      },
+      "hide_transition": {
+       "duration": 0
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "하단 띠배너",
+      "source_uuid": "1af56f4e-e6c1-4aec-bb66-2dc36c98f89c",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 4,
+      "group_item_backup": false,
+      "pos": {
+       "x": 0.0,
+       "y": 990.0
+      },
+      "pos_rel": {
+       "x": -1.7777777910232544,
+       "y": 0.8333333730697632
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "scale_rel": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds_rel": {
+       "x": 0.0018518518190830946,
+       "y": 0.0018518518190830946
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "프드프 로고",
+      "source_uuid": "cc355f76-8ad3-4615-ac01-995e012bb8d1",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 0,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 5,
+      "group_item_backup": false,
+      "pos": {
+       "x": -700.0,
+       "y": 25.0
+      },
+      "pos_rel": {
+       "x": -3.0740740299224854,
+       "y": -0.9537037014961243
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "scale_rel": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 1.0,
+       "y": 1.0
+      },
+      "bounds_rel": {
+       "x": 0.0018518518190830946,
+       "y": 0.0018518518190830946
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     },
+     {
+      "name": "가격 X 배너",
+      "source_uuid": "32417efc-cc16-49aa-a1b2-08d23d923623",
+      "visible": true,
+      "locked": false,
+      "rot": 0.0,
+      "scale_ref": {
+       "x": 1920.0,
+       "y": 1080.0
+      },
+      "align": 5,
+      "bounds_type": 2,
+      "bounds_align": 0,
+      "bounds_crop": false,
+      "crop_left": 0,
+      "crop_top": 0,
+      "crop_right": 0,
+      "crop_bottom": 0,
+      "id": 7,
+      "group_item_backup": false,
+      "pos": {
+       "x": 1548.0,
+       "y": 180.0
+      },
+      "pos_rel": {
+       "x": 1.0888888835906982,
+       "y": -0.6666666269302368
+      },
+      "scale": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "scale_rel": {
+       "x": 0.5,
+       "y": 0.5
+      },
+      "bounds": {
+       "x": 360.0,
+       "y": 720.0
+      },
+      "bounds_rel": {
+       "x": 0.6666666865348816,
+       "y": 1.3333333730697632
+      },
+      "scale_filter": "disable",
+      "blend_method": "default",
+      "blend_type": "normal",
+      "show_transition": {
+       "duration": 300
+      },
+      "hide_transition": {
+       "duration": 300
+      },
+      "private_settings": {}
+     }
+    ]
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "OBSBasic.SelectScene": [],
+    "libobs.show_scene_item.1": [],
+    "libobs.hide_scene_item.1": [],
+    "libobs.show_scene_item.2": [],
+    "libobs.hide_scene_item.2": [],
+    "libobs.show_scene_item.4": [],
+    "libobs.hide_scene_item.4": [],
+    "libobs.show_scene_item.5": [],
+    "libobs.hide_scene_item.5": [],
+    "libobs.show_scene_item.7": [],
+    "libobs.hide_scene_item.7": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "canvas_uuid": "6c69626f-6273-4c00-9d88-c5136d61696e",
+   "private_settings": {},
+   "filters": [
+    {
+     "prev_ver": 537001986,
+     "name": "이미지 마스크/혼합",
+     "uuid": "510f71b2-610e-4a66-8d47-bea152567398",
+     "id": "mask_filter",
+     "versioned_id": "mask_filter_v2",
+     "settings": {},
+     "mixers": 0,
+     "sync": 0,
+     "flags": 0,
+     "volume": 1.0,
+     "balance": 0.5,
+     "enabled": true,
+     "muted": false,
+     "push-to-mute": false,
+     "push-to-mute-delay": 0,
+     "push-to-talk": false,
+     "push-to-talk-delay": 0,
+     "hotkeys": {},
+     "deinterlace_mode": 0,
+     "deinterlace_field_order": 0,
+     "monitoring_type": 0,
+     "private_settings": {}
+    }
+   ]
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "프드프 로고",
+   "uuid": "cc355f76-8ad3-4615-ac01-995e012bb8d1",
+   "id": "image_source",
+   "versioned_id": "image_source",
+   "settings": {
+    "file": "/Users/jong_e/Desktop/code/pudufuOS/design-3/design/assets/out/academy-live/obs/live_top_01_logo@2x.png"
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {},
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "하단 띠배너",
+   "uuid": "1af56f4e-e6c1-4aec-bb66-2dc36c98f89c",
+   "id": "image_source",
+   "versioned_id": "image_source",
+   "settings": {
+    "file": "/Users/jong_e/Desktop/code/pudufuOS/design-3/design/assets/out/academy-live/obs/live_ticker_01_gift@2x.png"
+   },
+   "mixers": 0,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {},
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {}
+  },
+  {
+   "prev_ver": 537001986,
+   "name": "macOS 화면 캡쳐",
+   "uuid": "3b234f16-5ffe-41e5-90bb-2664121dd25e",
+   "id": "screen_capture",
+   "versioned_id": "screen_capture",
+   "settings": {
+    "display_uuid": "F1BA3BDF-1291-4257-BEDB-20454CA00F8B",
+    "type": 0,
+    "hide_obs": true
+   },
+   "mixers": 255,
+   "sync": 0,
+   "flags": 0,
+   "volume": 1.0,
+   "balance": 0.5,
+   "enabled": true,
+   "muted": false,
+   "push-to-mute": false,
+   "push-to-mute-delay": 0,
+   "push-to-talk": false,
+   "push-to-talk-delay": 0,
+   "hotkeys": {
+    "libobs.mute": [],
+    "libobs.unmute": [],
+    "libobs.push-to-mute": [],
+    "libobs.push-to-talk": []
+   },
+   "deinterlace_mode": 0,
+   "deinterlace_field_order": 0,
+   "monitoring_type": 0,
+   "private_settings": {}
+  }
+ ]
+}
