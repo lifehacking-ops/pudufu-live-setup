@@ -15,6 +15,7 @@ import subprocess
 import sys
 import tempfile
 import time
+import unicodedata
 import urllib.request
 from pathlib import Path
 
@@ -178,6 +179,67 @@ def build_collection(template: dict, asset_dir: Path) -> dict:
     return data
 
 
+# ──────────────────────────── 배너 ────────────────────────────
+IMAGE_EXT = {".png", ".jpg", ".jpeg"}
+
+
+def nfc(text: str) -> str:
+    """Mac에서 압축한 한글 이름은 자모가 분리(NFD)되어 풀린다. 비교·설치 전에 합친다(NFC)."""
+    return unicodedata.normalize("NFC", text)
+
+
+def app_dir() -> Path:
+    """exe(또는 setup_live.py)가 놓인 폴더."""
+    if getattr(sys, "frozen", False):
+        return Path(sys.executable).resolve().parent
+    return Path(__file__).resolve().parent
+
+
+def running_inside_zip(folder: Path) -> bool:
+    """Windows 탐색기에서 zip을 풀지 않고 exe를 열면 exe만 Temp\\Temp1_이름.zip\\ 에 꺼내 실행된다.
+    그러면 옆의 assets 폴더가 없어 기본 배너가 깔리므로 미리 막는다."""
+    return re.search(r"\.zip([\\/]|$)", str(folder), re.IGNORECASE) is not None
+
+
+def banner_source(folder: Path):
+    """(배너 폴더, 강사 배너 여부). folder 안에 assets 폴더가 있으면 강사 배너, 없으면 exe에 내장된 기본 배너."""
+    default = BASE / "assets"
+    ext = folder / "assets"
+    if ext.is_dir() and ext.resolve() != default.resolve():
+        return ext, True
+    return default, False
+
+
+def _images(folder: Path):
+    return [f for f in folder.iterdir() if f.is_file() and f.suffix.lower() in IMAGE_EXT] if folder.is_dir() else []
+
+
+def banner_problems(src: Path) -> list:
+    """기본 배너와 비교해 빠진 것을 사람이 읽을 문장으로 돌려준다.
+    로고·띠배너는 파일 이름이 정해져 있고, 슬라이드쇼 폴더는 그림이 한 장 이상이면 된다(장수 자유)."""
+    default = BASE / "assets"
+    have_files = {nfc(f.name) for f in _images(src)}
+    have_dirs = {nfc(d.name): d for d in src.iterdir() if d.is_dir()} if src.is_dir() else {}
+    problems = [f"{nfc(f.name)} 파일이 없습니다" for f in sorted(_images(default)) if nfc(f.name) not in have_files]
+    for d in sorted(x for x in default.iterdir() if x.is_dir()):
+        name = nfc(d.name)
+        if name not in have_dirs:
+            problems.append(f"'{name}' 폴더가 없습니다")
+        elif not _images(have_dirs[name]):
+            problems.append(f"'{name}' 폴더에 그림이 없습니다")
+    return problems
+
+
+def install_banners(src: Path, dst: Path):
+    """dst를 비우고 src의 그림만 NFC 이름으로 복사한다. 프로그램 전용 폴더라 옛 배너가 남지 않게 지운다."""
+    shutil.rmtree(dst, ignore_errors=True)
+    for f in src.rglob("*"):
+        if f.is_file() and f.suffix.lower() in IMAGE_EXT and not f.name.startswith("."):
+            out = dst / nfc(f.relative_to(src).as_posix())
+            out.parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(f, out)
+
+
 # ──────────────────────────── 파일 쓰기 ────────────────────────────
 def ini_merge(path: Path, values: dict):
     cp = configparser.ConfigParser(interpolation=None)
@@ -311,6 +373,12 @@ def run_setup(log, step=lambda i: None):
     """step(i): i번째(1부터) 단계 시작을 알린다. GUI가 진행 표시에 쓴다."""
     if obs_running():
         raise RuntimeError("OBS가 이미 켜져 있습니다. OBS를 완전히 종료한 뒤 다시 실행해 주세요.")
+    if running_inside_zip(app_dir()):
+        raise RuntimeError("압축 파일 안에서 바로 실행했습니다. 압축을 먼저 풀고, 푼 폴더에서 다시 실행해 주세요.")
+    src, custom = banner_source(app_dir())
+    problems = banner_problems(src)
+    if problems:
+        raise RuntimeError("배너 폴더(assets)를 확인해 주세요.\n- " + "\n- ".join(problems))
 
     step(1)
     exe = find_obs_exe() or install_obs(log)
@@ -318,10 +386,8 @@ def run_setup(log, step=lambda i: None):
 
     step(2)
     asset_dir = cfg / FILE_STEM / "assets"
-    # 프로그램 전용 폴더. 비우고 새로 복사해야 이름이 바뀐 옛 배너 폴더가 남지 않는다.
-    shutil.rmtree(asset_dir, ignore_errors=True)
-    shutil.copytree(BASE / "assets", asset_dir)
-    log(f"이미지 설치: {asset_dir}")
+    install_banners(src, asset_dir)
+    log(f"배너 설치: {'강사 배너(exe 옆 assets 폴더)' if custom else '기본 프드프 배너'} → {asset_dir}")
 
     template = json.loads((BASE / "template" / "scenes.json").read_text(encoding="utf-8"))
     collection = build_collection(template, asset_dir)
@@ -358,6 +424,7 @@ def run_setup(log, step=lambda i: None):
     except Exception:
         pass
     log("✅ 세팅 완료. OBS 설정 → 방송에서 '계정 연결'로 유튜브에 로그인한 뒤 '방송 시작'을 누르면 됩니다.")
+    return custom
 
 
 # ──────────────────────────── GUI ────────────────────────────
@@ -461,15 +528,16 @@ def gui():
 
         def work():
             try:
-                run_setup(log, step)
+                custom = run_setup(log, step)
 
                 def done():
                     if icons[state["cur"]].cget("text") == "▶":
                         mark(state["cur"], "✔", GREEN)
+                    which = "강사 배너" if custom else "기본 프드프 배너"
                     if state["warn"]:
-                        status.configure(text="세팅이 끝났습니다. " + state["warn"], foreground=ORANGE)
+                        status.configure(text=f"세팅이 끝났습니다({which} 적용). " + state["warn"], foreground=ORANGE)
                     else:
-                        status.configure(text="세팅이 끝났습니다. OBS 창이 열려 있어요.", foreground=GREEN)
+                        status.configure(text=f"세팅이 끝났습니다({which} 적용). OBS 창이 열려 있어요.", foreground=GREEN)
                     nxt.grid(row=5, column=0, sticky="ew", pady=(12, 0))
                 ui(done)
             except Exception as e:
