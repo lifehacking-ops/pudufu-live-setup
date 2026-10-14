@@ -318,7 +318,9 @@ def run_setup(log, step=lambda i: None):
 
     step(2)
     asset_dir = cfg / FILE_STEM / "assets"
-    shutil.copytree(BASE / "assets", asset_dir, dirs_exist_ok=True)
+    # 프로그램 전용 폴더. 비우고 새로 복사해야 이름이 바뀐 옛 배너 폴더가 남지 않는다.
+    shutil.rmtree(asset_dir, ignore_errors=True)
+    shutil.copytree(BASE / "assets", asset_dir)
     log(f"이미지 설치: {asset_dir}")
 
     template = json.loads((BASE / "template" / "scenes.json").read_text(encoding="utf-8"))
