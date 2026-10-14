@@ -8,9 +8,10 @@
 - [x] 장면 레이아웃 확정 (가격 배너 y=38~758, 웹캠 360×202 y=770~972, 간격 12px, 웹캠 아랫선 = 화면 공유 아랫선)
 - [x] PUDUFU_RTMP_SERVER — 자체 송출 서버를 쓰지 않으므로 비워 둠 (YouTube 모드만 사용)
 - [x] GitHub push → Actions로 Windows exe 빌드
-- [ ] Windows PC 파일럿 1회
+- [x] Windows PC 파일럿 1회 (2026-10-14 성공)
 
 ## 진행 상황 (최신이 위)
+- 2026-10-14 Windows 파일럿 성공. 인증서 오류(certifi 동봉)·일반 권한 실행 시 UAC 미표시(설치 파일만 runas) 수정.
 - 2026-10-14 자체 송출 서버 미사용 확정 → PUDUFU_RTMP_SERVER 비워 둠. Actions 빌드 성공, exe 확보.
 - 2026-10-14 daily repo에서 분리해 독립 repo로 이동. 워크플로를 루트 기준 경로로 수정.
 - 2026-10-14 웹캠 배치 확정. 데스크탑 오디오 볼륨 100%로 변환 시 강제.

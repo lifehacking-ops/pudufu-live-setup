@@ -108,7 +108,13 @@ def install_obs(log):
     with urllib.request.urlopen(url, timeout=60, context=ctx) as r, open(dst, "wb") as f:
         shutil.copyfileobj(r, f)
     log("설치 중입니다. 관리자 권한 창이 뜨면 '예'를 눌러 주세요...")
-    subprocess.run([str(dst), "/S"], check=True)
+    # 일반 실행(CreateProcess)으로는 UAC 창이 뜨지 않고 "요청한 작업에 승격이 필요합니다"로 바로 실패한다.
+    # 설치 파일만 '관리자 권한으로 실행'(runas)으로 띄우고 끝날 때까지 기다린다.
+    ps = f"Start-Process -FilePath '{dst}' -ArgumentList '/S' -Verb RunAs -Wait"
+    r = subprocess.run(["powershell", "-NoProfile", "-WindowStyle", "Hidden", "-Command", ps],
+                       capture_output=True, text=True, creationflags=0x08000000)  # CREATE_NO_WINDOW
+    if r.returncode != 0:
+        raise RuntimeError("OBS 설치가 취소됐거나 실패했습니다. 관리자 권한 창에서 '예'를 누른 뒤 다시 실행해 주세요.")
     exe = find_obs_exe()
     if not exe:
         raise RuntimeError("설치가 끝났지만 OBS 실행 파일을 찾지 못했습니다.")
