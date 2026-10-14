@@ -79,12 +79,24 @@ def obs_running() -> bool:
 
 
 # ──────────────────────────── OBS 설치 ────────────────────────────
+def ssl_context():
+    """강사 PC의 Windows 인증서 저장소가 오래되면 GitHub 접속이 'unable to get local issuer certificate'로
+    실패한다. 프로그램에 같이 넣은 certifi 인증서 묶음을 쓴다."""
+    import ssl
+    try:
+        import certifi
+        return ssl.create_default_context(cafile=certifi.where())
+    except ImportError:
+        return ssl.create_default_context()
+
+
 def install_obs(log):
     if IS_MAC:
         raise RuntimeError("Mac에는 OBS가 없습니다. https://obsproject.com 에서 설치한 뒤 다시 실행해 주세요.")
     log("OBS가 없어서 설치 파일을 내려받습니다...")
+    ctx = ssl_context()
     api = "https://api.github.com/repos/obsproject/obs-studio/releases/latest"
-    with urllib.request.urlopen(api, timeout=30) as r:
+    with urllib.request.urlopen(api, timeout=30, context=ctx) as r:
         assets = json.load(r)["assets"]
     cands = [a for a in assets if re.search(r"Windows.*Installer\.exe$", a["name"])]
     cands.sort(key=lambda a: ("x64" not in a["name"], a["name"]))
@@ -93,7 +105,8 @@ def install_obs(log):
     url = cands[0]["browser_download_url"]
     dst = Path(tempfile.gettempdir()) / cands[0]["name"]
     log(f"내려받는 중: {cands[0]['name']}")
-    urllib.request.urlretrieve(url, dst)
+    with urllib.request.urlopen(url, timeout=60, context=ctx) as r, open(dst, "wb") as f:
+        shutil.copyfileobj(r, f)
     log("설치 중입니다. 관리자 권한 창이 뜨면 '예'를 눌러 주세요...")
     subprocess.run([str(dst), "/S"], check=True)
     exe = find_obs_exe()
