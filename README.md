@@ -1,6 +1,6 @@
 # 프드프 라이브 OBS 자동 세팅
 
-강사에게 exe 하나를 전달하면, 실행 → 유튜브 스트림 키 입력 → "세팅 시작" 만으로 OBS 강의 세팅이 끝난다.
+강사에게 exe 하나를 전달하면, 실행 → "세팅 시작" 만으로 OBS 강의 세팅이 끝난다. 유튜브 연결은 OBS 설정 → 방송에서 '계정 연결'로 로그인한다.
 
 ## 실행하면 하는 일
 
@@ -10,14 +10,14 @@
    - Mac 전용 소스(macOS 웹캠·화면 캡쳐)를 Windows 소스로 교체
    - 중복 웹캠·화면 소스를 하나로 합치고, 이미지 경로를 강사 PC 경로로 교체
    - 마이크·데스크탑 오디오는 "기본 장치"로 설정
-4. 송출 프로필 생성 (1080p30, x264 6000kbps, YouTube RTMPS + 스트림 키). 키를 비우면 OBS 설정 → 방송에서 나중에 입력.
+4. 송출 프로필 생성 (1080p30, x264 6000kbps, 송출처 YouTube). 강사는 OBS 설정 → 방송에서 '계정 연결'로 유튜브 로그인.
 5. OBS 실행 후 obs-websocket으로 웹캠·모니터를 자동 연결.
 
 ## 파일
 
 | 경로 | 용도 |
 |---|---|
-| `setup_live.py` | 프로그램 본체. GUI 또는 `--key` 지정 시 CLI |
+| `setup_live.py` | 프로그램 본체. GUI 또는 `--no-gui` 지정 시 CLI |
 | `template/scenes.json` | OBS에서 내보낸 장면 컬렉션 원본 (Mac). 수정 시 OBS에서 다시 내보내 교체 |
 | `assets/` | 로고, 띠배너, 가격 공개 전/후 배너 |
 | `.github/workflows/build-windows.yml` | GitHub Actions에서 Windows exe 빌드 |
@@ -38,7 +38,7 @@
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python setup_live.py                       # GUI
-.venv/bin/python setup_live.py --key XXXX                 # 창 없이 바로 실행
+.venv/bin/python setup_live.py --no-gui                   # 창 없이 바로 실행
 ```
 
 ## 알려진 제약

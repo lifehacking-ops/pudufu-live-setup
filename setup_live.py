@@ -2,7 +2,7 @@
 """프드프 라이브 OBS 자동 세팅.
 
 실행하면 OBS 설치 확인 → 장면/프로필/이미지 설치 → OBS 실행 → 웹캠·모니터 자동 연결 순으로 진행한다.
-강사는 유튜브 스트림 키만 입력하면 된다.
+송출처는 YouTube로 잡아 두고, 강사는 OBS 설정 → 방송에서 '계정 연결'로 유튜브에 로그인한 뒤 방송을 시작한다.
 """
 import argparse
 import configparser
@@ -194,7 +194,7 @@ def ini_merge(path: Path, values: dict):
         cp.write(fp, space_around_delimiters=False)
 
 
-def write_profile(cfg: Path, key: str):
+def write_profile(cfg: Path):
     pdir = cfg / "basic" / "profiles" / FILE_STEM
     pdir.mkdir(parents=True, exist_ok=True)
     bw, bh = VIDEO["base"]
@@ -208,7 +208,7 @@ def write_profile(cfg: Path, key: str):
         "Stream1": {"IgnoreRecommended": "false"},
     })
     service = {"type": "rtmp_common", "settings": {"service": "YouTube - RTMPS", "protocol": "RTMPS",
-                                                    "server": YOUTUBE_RTMP_SERVER, "key": key}}
+                                                    "server": YOUTUBE_RTMP_SERVER, "key": ""}}
     (pdir / "service.json").write_text(json.dumps(service, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -304,13 +304,19 @@ def attach_devices(cl, log):
 
 
 # ──────────────────────────── 전체 흐름 ────────────────────────────
-def run_setup(key: str, log):
+STEPS = ["OBS 설치 확인", "배너·장면 설치", "송출 설정", "OBS 실행", "웹캠·모니터 연결"]
+
+
+def run_setup(log, step=lambda i: None):
+    """step(i): i번째(1부터) 단계 시작을 알린다. GUI가 진행 표시에 쓴다."""
     if obs_running():
         raise RuntimeError("OBS가 이미 켜져 있습니다. OBS를 완전히 종료한 뒤 다시 실행해 주세요.")
 
+    step(1)
     exe = find_obs_exe() or install_obs(log)
     cfg = obs_config_dir()
 
+    step(2)
     asset_dir = cfg / FILE_STEM / "assets"
     shutil.copytree(BASE / "assets", asset_dir, dirs_exist_ok=True)
     log(f"이미지 설치: {asset_dir}")
@@ -328,82 +334,165 @@ def run_setup(key: str, log):
     (scenes_dir / f"{FILE_STEM}.json").write_text(json.dumps(collection, ensure_ascii=False, indent=1), encoding="utf-8")
     log(f"장면 설치: {len(collection['scene_order'])}개 장면")
 
-    write_profile(cfg, key)
+    step(3)
+    write_profile(cfg)
     write_globals(cfg)
     write_websocket_config(cfg)
     log("송출 프로필 설치 완료")
 
     # 직전 OBS가 비정상 종료됐으면 '안전 모드로 실행?' 창이 떠서 세팅이 멈춘다. 그 표식을 지운다.
     shutil.rmtree(cfg / ".sentinel", ignore_errors=True)
+    step(4)
     log("OBS를 실행합니다...")
     args = [str(exe), "--collection", COLLECTION_NAME, "--profile", PROFILE_NAME]
     subprocess.Popen(args, cwd=str(exe.parent), start_new_session=True,
                      stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
     cl = connect_ws(log)
+    step(5)
     attach_devices(cl, log)
     try:
         cl.set_current_program_scene(collection["current_scene"])
     except Exception:
         pass
-    if key.strip():
-        log("✅ 세팅 완료. OBS 창에서 '방송 시작'을 누르면 됩니다.")
-    else:
-        log("✅ 세팅 완료. 스트림 키는 OBS 설정 → 방송에서 입력한 뒤 '방송 시작'을 누르면 됩니다.")
+    log("✅ 세팅 완료. OBS 설정 → 방송에서 '계정 연결'로 유튜브에 로그인한 뒤 '방송 시작'을 누르면 됩니다.")
 
 
 # ──────────────────────────── GUI ────────────────────────────
 def gui():
     import threading
     import tkinter as tk
-    from tkinter import messagebox, scrolledtext, ttk
+    from tkinter import scrolledtext, ttk
+
+    fam = "Malgun Gothic" if IS_WIN else "Helvetica"
+    GREY, BLUE, GREEN, ORANGE, RED = "#9a9a9a", "#2962ff", "#2e7d32", "#ef6c00", "#c62828"
 
     root = tk.Tk()
     root.title("프드프 라이브 세팅")
     root.resizable(False, False)
-    frm = ttk.Frame(root, padding=16)
-    frm.grid()
+    style = ttk.Style()
+    style.configure("Big.TButton", font=(fam, 13, "bold"), padding=(0, 10))
+    frm = ttk.Frame(root, padding=24)
+    frm.grid(sticky="nsew")
+    frm.columnconfigure(0, weight=1)
 
-    ttk.Label(frm, text="유튜브 스트림 키").grid(row=0, column=0, sticky="w")
-    key = ttk.Entry(frm, width=44, show="•")
-    key.grid(row=0, column=1)
+    ttk.Label(frm, text="프드프 라이브 OBS 세팅", font=(fam, 18, "bold")).grid(row=0, column=0, sticky="w")
+    ttk.Label(frm, text="아래 버튼 하나로 강의 방송 준비를 끝냅니다. 보통 1~2분 걸려요.",
+              foreground="#666").grid(row=1, column=0, sticky="w", pady=(2, 16))
 
-    logbox = scrolledtext.ScrolledText(frm, width=58, height=12, state="disabled", font=("Menlo" if IS_MAC else "Consolas", 10))
-    logbox.grid(row=2, column=0, columnspan=2, pady=(12, 0))
+    # 진행 단계
+    box = ttk.Frame(frm)
+    box.grid(row=2, column=0, sticky="w")
+    icons, names = [], []
+    for i, name in enumerate(STEPS):
+        ic = ttk.Label(box, text="○", width=3, foreground=GREY, font=(fam, 13))
+        ic.grid(row=i, column=0, sticky="w", pady=2)
+        nm = ttk.Label(box, text=f"{i + 1}. {name}", foreground=GREY, font=(fam, 12))
+        nm.grid(row=i, column=1, sticky="w", pady=2)
+        icons.append(ic)
+        names.append(nm)
+
+    def mark(i, icon, color):
+        icons[i].configure(text=icon, foreground=color)
+        names[i].configure(foreground=color if color != GREY else "#333")
+
+    btn = ttk.Button(frm, text="세팅 시작", style="Big.TButton")
+    btn.grid(row=3, column=0, sticky="ew", pady=(20, 10))
+
+    status = ttk.Label(frm, text="", wraplength=440, font=(fam, 11))
+    status.grid(row=4, column=0, sticky="w")
+
+    # 완료 후 안내
+    nxt = ttk.LabelFrame(frm, text=" 다음 할 일 ", padding=12)
+    ttk.Label(nxt, text="1. OBS 메뉴 [설정] → [방송] → '계정 연결'을 눌러 유튜브에 로그인하세요.",
+              wraplength=420, font=(fam, 11)).grid(row=0, column=0, sticky="w", pady=2)
+    ttk.Label(nxt, text="2. OBS 오른쪽 아래 '방송 시작'을 누르면 송출이 시작됩니다.",
+              wraplength=420, font=(fam, 11)).grid(row=1, column=0, sticky="w", pady=2)
+
+    # 자세한 기록 (접힘)
+    detail = ttk.Button(frm, text="자세한 기록 보기 ▾")
+    detail.grid(row=6, column=0, sticky="w", pady=(12, 0))
+    logbox = scrolledtext.ScrolledText(frm, width=58, height=8, state="disabled",
+                                       font=("Consolas" if IS_WIN else "Menlo", 10))
+
+    def toggle():
+        if logbox.winfo_ismapped():
+            logbox.grid_remove()
+            detail.configure(text="자세한 기록 보기 ▾")
+        else:
+            logbox.grid(row=7, column=0, sticky="ew", pady=(6, 0))
+            detail.configure(text="자세한 기록 닫기 ▴")
+    detail.configure(command=toggle)
+
+    state = {"cur": -1, "warn": ""}
+
+    def ui(fn):
+        root.after(0, fn)
 
     def log(msg):
-        def _append():
+        def _():
             logbox.configure(state="normal")
             logbox.insert("end", msg + "\n")
             logbox.see("end")
             logbox.configure(state="disabled")
-        root.after(0, _append)
+            if msg.startswith("⚠") and state["cur"] >= 0:
+                mark(state["cur"], "⚠", ORANGE)
+                state["warn"] = msg
+                status.configure(text=msg, foreground=ORANGE)
+        ui(_)
+
+    def step(i):
+        def _():
+            if state["cur"] >= 0 and icons[state["cur"]].cget("text") == "▶":
+                mark(state["cur"], "✔", GREEN)
+            state["cur"] = i - 1
+            mark(i - 1, "▶", BLUE)
+            status.configure(text=f"{STEPS[i - 1]} 중…", foreground=BLUE)
+        ui(_)
 
     def start():
         btn.configure(state="disabled")
+        nxt.grid_remove()
+        for i in range(len(STEPS)):
+            mark(i, "○", GREY)
+        state["cur"], state["warn"] = -1, ""
 
         def work():
             try:
-                run_setup(key.get(), log)
-                root.after(0, lambda: messagebox.showinfo("완료", "세팅이 끝났습니다.\nOBS 창에서 '방송 시작'을 누르세요."))
+                run_setup(log, step)
+
+                def done():
+                    if icons[state["cur"]].cget("text") == "▶":
+                        mark(state["cur"], "✔", GREEN)
+                    if state["warn"]:
+                        status.configure(text="세팅이 끝났습니다. " + state["warn"], foreground=ORANGE)
+                    else:
+                        status.configure(text="세팅이 끝났습니다. OBS 창이 열려 있어요.", foreground=GREEN)
+                    nxt.grid(row=5, column=0, sticky="ew", pady=(12, 0))
+                ui(done)
             except Exception as e:
+                def fail():
+                    if state["cur"] >= 0:
+                        mark(state["cur"], "✖", RED)
+                    status.configure(text=f"문제가 생겼습니다: {e}", foreground=RED)
+                    if not logbox.winfo_ismapped():
+                        toggle()
+                ui(fail)
                 log(f"❌ {e}")
-                root.after(0, lambda: messagebox.showerror("오류", str(e)))
             finally:
-                root.after(0, lambda: btn.configure(state="normal"))
+                ui(lambda: btn.configure(state="normal"))
         threading.Thread(target=work, daemon=True).start()
 
-    btn = ttk.Button(frm, text="세팅 시작", command=start)
-    btn.grid(row=1, column=0, columnspan=2, pady=(12, 0), sticky="ew")
+    btn.configure(command=start)
     root.mainloop()
 
 
 def main():
     ap = argparse.ArgumentParser(description="프드프 라이브 OBS 자동 세팅")
-    ap.add_argument("--key", help="유튜브 스트림 키. 지정하면 창 없이 바로 실행 (빈 문자열이면 키 없이 세팅)")
+    ap.add_argument("--no-gui", action="store_true", help="창 없이 바로 실행")
     a = ap.parse_args()
-    if a.key is not None:
-        run_setup(a.key, print)
+    if a.no_gui:
+        run_setup(print)
     else:
         gui()
 
