@@ -2,7 +2,7 @@
 """프드프 라이브 OBS 자동 세팅.
 
 실행하면 OBS 설치 확인 → 장면/프로필/이미지 설치 → OBS 실행 → 웹캠·모니터 자동 연결 순으로 진행한다.
-강사는 송출처와 스트림 키만 입력하면 된다.
+강사는 유튜브 스트림 키만 입력하면 된다.
 """
 import argparse
 import configparser
@@ -24,7 +24,6 @@ PROFILE_NAME = "프드프 라이브"
 FILE_STEM = "pudufu_live"  # OBS 내부 파일/폴더 이름 (ASCII)
 
 YOUTUBE_RTMP_SERVER = "rtmps://a.rtmps.youtube.com:443/live2"
-PUDUFU_RTMP_SERVER = ""  # 예: "rtmp://live.pudufu.com/app"  비워 두면 실행 시 입력창이 뜬다.
 
 VIDEO = {"base": (1920, 1080), "output": (1920, 1080), "fps": 30, "vbitrate": 6000, "abitrate": 160}
 
@@ -195,7 +194,7 @@ def ini_merge(path: Path, values: dict):
         cp.write(fp, space_around_delimiters=False)
 
 
-def write_profile(cfg: Path, dest: str, server: str, key: str):
+def write_profile(cfg: Path, key: str):
     pdir = cfg / "basic" / "profiles" / FILE_STEM
     pdir.mkdir(parents=True, exist_ok=True)
     bw, bh = VIDEO["base"]
@@ -208,11 +207,8 @@ def write_profile(cfg: Path, dest: str, server: str, key: str):
                          "Preset": "veryfast", "UseAdvanced": "false", "RecQuality": "Stream", "RecFormat2": "mkv"},
         "Stream1": {"IgnoreRecommended": "false"},
     })
-    if dest == "youtube":
-        service = {"type": "rtmp_common", "settings": {"service": "YouTube - RTMPS", "protocol": "RTMPS",
-                                                        "server": YOUTUBE_RTMP_SERVER, "key": key}}
-    else:
-        service = {"type": "rtmp_custom", "settings": {"server": server, "key": key, "use_auth": False, "bwtest": False}}
+    service = {"type": "rtmp_common", "settings": {"service": "YouTube - RTMPS", "protocol": "RTMPS",
+                                                    "server": YOUTUBE_RTMP_SERVER, "key": key}}
     (pdir / "service.json").write_text(json.dumps(service, ensure_ascii=False, indent=2), encoding="utf-8")
 
 
@@ -308,9 +304,7 @@ def attach_devices(cl, log):
 
 
 # ──────────────────────────── 전체 흐름 ────────────────────────────
-def run_setup(dest: str, key: str, server: str, log):
-    if dest == "pudufu" and not server.strip():
-        raise RuntimeError("pudufu 송출 서버 주소가 필요합니다.")
+def run_setup(key: str, log):
     if obs_running():
         raise RuntimeError("OBS가 이미 켜져 있습니다. OBS를 완전히 종료한 뒤 다시 실행해 주세요.")
 
@@ -334,7 +328,7 @@ def run_setup(dest: str, key: str, server: str, log):
     (scenes_dir / f"{FILE_STEM}.json").write_text(json.dumps(collection, ensure_ascii=False, indent=1), encoding="utf-8")
     log(f"장면 설치: {len(collection['scene_order'])}개 장면")
 
-    write_profile(cfg, dest, server, key)
+    write_profile(cfg, key)
     write_globals(cfg)
     write_websocket_config(cfg)
     log("송출 프로필 설치 완료")
@@ -370,33 +364,12 @@ def gui():
     frm = ttk.Frame(root, padding=16)
     frm.grid()
 
-    ttk.Label(frm, text="송출처").grid(row=0, column=0, sticky="w")
-    dest = tk.StringVar(value="youtube")
-    box = ttk.Frame(frm)
-    box.grid(row=0, column=1, sticky="w")
-    ttk.Radiobutton(box, text="YouTube", variable=dest, value="youtube").pack(side="left")
-    ttk.Radiobutton(box, text="pudufu", variable=dest, value="pudufu").pack(side="left", padx=(12, 0))
-
-    ttk.Label(frm, text="스트림 키").grid(row=1, column=0, sticky="w", pady=(8, 0))
+    ttk.Label(frm, text="유튜브 스트림 키").grid(row=0, column=0, sticky="w")
     key = ttk.Entry(frm, width=44, show="•")
-    key.grid(row=1, column=1, pady=(8, 0))
-
-    server_label = ttk.Label(frm, text="pudufu 서버")
-    server = ttk.Entry(frm, width=44)
-    server.insert(0, PUDUFU_RTMP_SERVER)
-
-    def on_dest(*_):
-        if dest.get() == "pudufu" and not PUDUFU_RTMP_SERVER:
-            server_label.grid(row=2, column=0, sticky="w", pady=(8, 0))
-            server.grid(row=2, column=1, pady=(8, 0))
-        else:
-            server_label.grid_remove()
-            server.grid_remove()
-    dest.trace_add("write", on_dest)
-    on_dest()
+    key.grid(row=0, column=1)
 
     logbox = scrolledtext.ScrolledText(frm, width=58, height=12, state="disabled", font=("Menlo" if IS_MAC else "Consolas", 10))
-    logbox.grid(row=4, column=0, columnspan=2, pady=(12, 0))
+    logbox.grid(row=2, column=0, columnspan=2, pady=(12, 0))
 
     def log(msg):
         def _append():
@@ -411,7 +384,7 @@ def gui():
 
         def work():
             try:
-                run_setup(dest.get(), key.get(), server.get(), log)
+                run_setup(key.get(), log)
                 root.after(0, lambda: messagebox.showinfo("완료", "세팅이 끝났습니다.\nOBS 창에서 '방송 시작'을 누르세요."))
             except Exception as e:
                 log(f"❌ {e}")
@@ -421,18 +394,16 @@ def gui():
         threading.Thread(target=work, daemon=True).start()
 
     btn = ttk.Button(frm, text="세팅 시작", command=start)
-    btn.grid(row=3, column=0, columnspan=2, pady=(12, 0), sticky="ew")
+    btn.grid(row=1, column=0, columnspan=2, pady=(12, 0), sticky="ew")
     root.mainloop()
 
 
 def main():
     ap = argparse.ArgumentParser(description="프드프 라이브 OBS 자동 세팅")
-    ap.add_argument("--dest", choices=["youtube", "pudufu"], default="youtube")
-    ap.add_argument("--key", help="스트림 키. 지정하면 창 없이 바로 실행 (빈 문자열이면 키 없이 세팅)")
-    ap.add_argument("--server", default=PUDUFU_RTMP_SERVER, help="pudufu RTMP 서버 주소")
+    ap.add_argument("--key", help="유튜브 스트림 키. 지정하면 창 없이 바로 실행 (빈 문자열이면 키 없이 세팅)")
     a = ap.parse_args()
     if a.key is not None:
-        run_setup(a.dest, a.key, a.server, print)
+        run_setup(a.key, print)
     else:
         gui()
 

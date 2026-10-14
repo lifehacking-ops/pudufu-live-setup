@@ -1,6 +1,6 @@
 # 프드프 라이브 OBS 자동 세팅
 
-강사에게 exe 하나를 전달하면, 실행 → 송출처·스트림 키 입력 → "세팅 시작" 만으로 OBS 강의 세팅이 끝난다.
+강사에게 exe 하나를 전달하면, 실행 → 유튜브 스트림 키 입력 → "세팅 시작" 만으로 OBS 강의 세팅이 끝난다.
 
 ## 실행하면 하는 일
 
@@ -10,7 +10,7 @@
    - Mac 전용 소스(macOS 웹캠·화면 캡쳐)를 Windows 소스로 교체
    - 중복 웹캠·화면 소스를 하나로 합치고, 이미지 경로를 강사 PC 경로로 교체
    - 마이크·데스크탑 오디오는 "기본 장치"로 설정
-4. 송출 프로필 생성 (1080p30, x264 6000kbps, YouTube 또는 pudufu RTMP + 스트림 키).
+4. 송출 프로필 생성 (1080p30, x264 6000kbps, YouTube RTMPS + 스트림 키). 키를 비우면 OBS 설정 → 방송에서 나중에 입력.
 5. OBS 실행 후 obs-websocket으로 웹캠·모니터를 자동 연결.
 
 ## 파일
@@ -24,7 +24,6 @@
 
 ## 설정값 (setup_live.py 상단)
 
-- `PUDUFU_RTMP_SERVER` : pudufu 송출 서버 주소. 비워 두면 실행 시 입력창이 뜬다.
 - `VIDEO` : 해상도·FPS·비트레이트.
 - `WS_PASSWORD` : obs-websocket 비밀번호 (강사 PC OBS에 기록됨).
 
@@ -39,7 +38,7 @@
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python setup_live.py                       # GUI
-.venv/bin/python setup_live.py --dest youtube --key XXXX   # 창 없이 바로 실행
+.venv/bin/python setup_live.py --key XXXX                 # 창 없이 바로 실행
 ```
 
 ## 알려진 제약
