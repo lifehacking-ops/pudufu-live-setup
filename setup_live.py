@@ -243,9 +243,12 @@ def connect_ws(log, timeout=90):
         logging.getLogger(name).setLevel(logging.CRITICAL)
     deadline = time.time() + timeout
     last = None
+    cl = None
     while time.time() < deadline:
         try:
-            return obs.ReqClient(host="localhost", port=WS_PORT, password=WS_PASSWORD, timeout=5)
+            cl = cl or obs.ReqClient(host="localhost", port=WS_PORT, password=WS_PASSWORD, timeout=5)
+            cl.get_scene_list()  # websocket은 OBS 본체보다 먼저 열린다(코드 207). 실제 응답이 올 때까지 기다린다.
+            return cl
         except Exception as e:  # OBS가 아직 뜨는 중
             last = e
             time.sleep(2)
@@ -287,8 +290,6 @@ def attach_devices(cl, log):
 
 # ──────────────────────────── 전체 흐름 ────────────────────────────
 def run_setup(dest: str, key: str, server: str, log):
-    if not key.strip():
-        raise RuntimeError("스트림 키를 입력해 주세요.")
     if dest == "pudufu" and not server.strip():
         raise RuntimeError("pudufu 송출 서버 주소가 필요합니다.")
     if obs_running():
@@ -332,7 +333,10 @@ def run_setup(dest: str, key: str, server: str, log):
         cl.set_current_program_scene(collection["current_scene"])
     except Exception:
         pass
-    log("✅ 세팅 완료. OBS 창에서 '방송 시작'을 누르면 됩니다.")
+    if key.strip():
+        log("✅ 세팅 완료. OBS 창에서 '방송 시작'을 누르면 됩니다.")
+    else:
+        log("✅ 세팅 완료. 스트림 키는 OBS 설정 → 방송에서 입력한 뒤 '방송 시작'을 누르면 됩니다.")
 
 
 # ──────────────────────────── GUI ────────────────────────────
@@ -405,10 +409,10 @@ def gui():
 def main():
     ap = argparse.ArgumentParser(description="프드프 라이브 OBS 자동 세팅")
     ap.add_argument("--dest", choices=["youtube", "pudufu"], default="youtube")
-    ap.add_argument("--key", help="스트림 키. 지정하면 창 없이 바로 실행")
+    ap.add_argument("--key", help="스트림 키. 지정하면 창 없이 바로 실행 (빈 문자열이면 키 없이 세팅)")
     ap.add_argument("--server", default=PUDUFU_RTMP_SERVER, help="pudufu RTMP 서버 주소")
     a = ap.parse_args()
-    if a.key:
+    if a.key is not None:
         run_setup(a.dest, a.key, a.server, print)
     else:
         gui()

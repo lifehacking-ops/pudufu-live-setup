@@ -6,11 +6,12 @@
 ## 완료 조건
 - [x] Mac에서 전체 흐름 검증 (OBS 설치 확인 → 이미지·장면·프로필 설치 → OBS 실행 → 웹캠·모니터 자동 연결)
 - [x] 장면 레이아웃 확정 (가격 배너 y=38~758, 웹캠 360×202 y=770~972, 간격 12px, 웹캠 아랫선 = 화면 공유 아랫선)
-- [ ] PUDUFU_RTMP_SERVER 값 입력 (setup_live.py 상단) — 나중에
-- [ ] GitHub push → Actions로 Windows exe 빌드
+- [x] PUDUFU_RTMP_SERVER — 자체 송출 서버를 쓰지 않으므로 비워 둠 (YouTube 모드만 사용)
+- [x] GitHub push → Actions로 Windows exe 빌드
 - [ ] Windows PC 파일럿 1회
 
 ## 진행 상황 (최신이 위)
+- 2026-10-14 자체 송출 서버 미사용 확정 → PUDUFU_RTMP_SERVER 비워 둠. Actions 빌드 성공, exe 확보.
 - 2026-10-14 daily repo에서 분리해 독립 repo로 이동. 워크플로를 루트 기준 경로로 수정.
 - 2026-10-14 웹캠 배치 확정. 데스크탑 오디오 볼륨 100%로 변환 시 강제.
 - 2026-10-13 프로그램 작성, Mac 검증 완료.
