@@ -121,6 +121,23 @@ def ssl_context():
         return ssl.create_default_context()
 
 
+# 창 없이(/S) 설치하면 OBS 설치 프로그램은 확인 창 대신 이 코드를 남기고 바로 끝난다 (obs-studio 커밋 d6fd723).
+INSTALL_ERRORS = {
+    3: "이 PC의 Windows 버전에서는 OBS를 설치할 수 없습니다(64비트 Windows 10 이상 필요).",
+    4: "OBS에 필요한 Windows 구성 요소(Visual C++ 런타임 등)가 없습니다. Windows 업데이트를 마친 뒤 다시 실행해 주세요.",
+    5: "OBS가 이미 켜져 있어 설치하지 못했습니다. OBS를 완전히 종료한 뒤 다시 실행해 주세요.",
+    6: "다른 프로그램(줌·디스코드·팀즈·카카오톡 등 화상 프로그램)이 예전 OBS 파일을 쓰고 있어 설치하지 못했습니다. "
+       "PC를 재부팅한 뒤 다른 프로그램을 켜기 전에 이 프로그램을 바로 다시 실행해 주세요.",
+    1223: "관리자 권한 창에서 '아니오'를 눌러 설치가 취소됐습니다. 다시 실행해 '예'를 눌러 주세요.",
+}
+
+
+def install_error(code: int):
+    """설치 실패가 확실한 종료 코드면 강사 안내 문구, 아니면 None."""
+    msg = INSTALL_ERRORS.get(code)
+    return f"{msg} (설치 종료 코드 {code})" if msg else None
+
+
 def install_obs(log):
     if IS_MAC:
         raise RuntimeError("Mac에는 OBS가 없습니다. https://obsproject.com 에서 설치한 뒤 다시 실행해 주세요.")
@@ -146,8 +163,8 @@ def install_obs(log):
     r = subprocess.run(["powershell", "-NoProfile", "-WindowStyle", "Hidden", "-Command", ps],
                        capture_output=True, text=True, creationflags=0x08000000)  # CREATE_NO_WINDOW
     log(f"설치 프로그램 종료 코드: {r.returncode}")
-    if r.returncode == 1223:
-        raise RuntimeError("관리자 권한 창에서 '아니오'를 눌러 설치가 취소됐습니다. 다시 실행해 '예'를 눌러 주세요.")
+    if err := install_error(r.returncode):
+        raise RuntimeError(err)
     # 설치 프로그램이 끝났다고 알린 뒤에도 파일 복사가 이어질 수 있어 잠시 기다리며 찾는다.
     deadline = time.time() + 180
     while True:
