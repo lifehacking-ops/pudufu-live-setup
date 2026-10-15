@@ -59,14 +59,45 @@ def obs_config_dir() -> Path:
     return Path.home() / "Library" / "Application Support" / "obs-studio"
 
 
+def pick_obs_exe(locations):
+    """설치 폴더 또는 obs64.exe 경로 후보 중 실제로 있는 첫 obs64.exe. 레지스트리 값의 따옴표·',0' 꼬리는 걷어낸다."""
+    for raw in locations:
+        v = (raw or "").strip().strip('"')
+        if not v:
+            continue
+        i = v.lower().find(".exe")
+        cand = Path(v[:i + 4]) if i >= 0 else Path(v) / "bin" / "64bit" / "obs64.exe"
+        if cand.is_file():
+            return cand
+    return None
+
+
+def obs_registry_locations():
+    """OBS 설치 프로그램이 남기는 설치 위치. 기본 폴더가 아닌 곳(D: 등)에 설치돼 있어도 찾기 위해."""
+    import winreg
+    keys = [
+        (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\OBS Studio", ""),
+        (winreg.HKEY_LOCAL_MACHINE, r"SOFTWARE\WOW6432Node\OBS Studio", ""),
+        (winreg.HKEY_CURRENT_USER, r"SOFTWARE\OBS Studio", ""),
+    ]
+    for root in (r"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\OBS Studio",
+                 r"SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\OBS Studio"):
+        keys += [(winreg.HKEY_LOCAL_MACHINE, root, "InstallLocation"), (winreg.HKEY_LOCAL_MACHINE, root, "DisplayIcon")]
+    out = []
+    for hive, sub, name in keys:
+        try:
+            with winreg.OpenKey(hive, sub) as k:
+                out.append(str(winreg.QueryValueEx(k, name)[0]))
+        except OSError:
+            pass
+    return out
+
+
 def find_obs_exe():
     if IS_WIN:
-        for root in (os.environ.get("ProgramFiles", r"C:\Program Files"),
-                     os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)")):
-            p = Path(root) / "obs-studio" / "bin" / "64bit" / "obs64.exe"
-            if p.exists():
-                return p
-        return None
+        defaults = [str(Path(os.environ[v]) / "obs-studio")
+                    for v in ("ProgramW6432", "ProgramFiles", "ProgramFiles(x86)") if os.environ.get(v)]
+        return pick_obs_exe(obs_registry_locations() + defaults + [r"C:\Program Files\obs-studio"])
     p = Path("/Applications/OBS.app/Contents/MacOS/OBS")
     return p if p.exists() else None
 
@@ -110,15 +141,25 @@ def install_obs(log):
     log("설치 중입니다. 관리자 권한 창이 뜨면 '예'를 눌러 주세요...")
     # 일반 실행(CreateProcess)으로는 UAC 창이 뜨지 않고 "요청한 작업에 승격이 필요합니다"로 바로 실패한다.
     # 설치 파일만 '관리자 권한으로 실행'(runas)으로 띄우고 끝날 때까지 기다린다.
-    ps = f"Start-Process -FilePath '{dst}' -ArgumentList '/S' -Verb RunAs -Wait"
+    ps = (f"try {{ $p = Start-Process -FilePath '{dst}' -ArgumentList '/S' -Verb RunAs -Wait -PassThru; exit $p.ExitCode }}"
+          " catch { exit 1223 }")  # 1223 = UAC에서 '아니오'
     r = subprocess.run(["powershell", "-NoProfile", "-WindowStyle", "Hidden", "-Command", ps],
                        capture_output=True, text=True, creationflags=0x08000000)  # CREATE_NO_WINDOW
-    if r.returncode != 0:
-        raise RuntimeError("OBS 설치가 취소됐거나 실패했습니다. 관리자 권한 창에서 '예'를 누른 뒤 다시 실행해 주세요.")
-    exe = find_obs_exe()
+    log(f"설치 프로그램 종료 코드: {r.returncode}")
+    if r.returncode == 1223:
+        raise RuntimeError("관리자 권한 창에서 '아니오'를 눌러 설치가 취소됐습니다. 다시 실행해 '예'를 눌러 주세요.")
+    # 설치 프로그램이 끝났다고 알린 뒤에도 파일 복사가 이어질 수 있어 잠시 기다리며 찾는다.
+    deadline = time.time() + 180
+    while True:
+        exe = find_obs_exe()
+        if exe or time.time() > deadline:
+            break
+        time.sleep(3)
     if not exe:
-        raise RuntimeError("설치가 끝났지만 OBS 실행 파일을 찾지 못했습니다.")
-    log("OBS 설치 완료")
+        log("찾아본 위치: " + " | ".join(obs_registry_locations() or ["(레지스트리 기록 없음)"]))
+        raise RuntimeError(f"OBS 설치 후 실행 파일을 찾지 못했습니다(설치 종료 코드 {r.returncode}). "
+                           "OBS가 설치됐다면 이 프로그램을 한 번 더 실행해 주세요.")
+    log(f"OBS 설치 완료: {exe}")
     return exe
 
 
