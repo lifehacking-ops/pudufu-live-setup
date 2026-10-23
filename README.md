@@ -63,7 +63,7 @@ python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python setup_live.py --no-gui --assets "경로"    # 강사 배너 폴더를 직접 지정
 ```
 
-Mac 강사에게 배포하는 방법(구글 드라이브)은 `README-mac.md` 참고.
+Mac 강사에게 배포하는 방법(GitHub에서 clone·pull)은 `README-mac.md` 참고.
 
 ## 알려진 제약
 
