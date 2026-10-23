@@ -17,7 +17,7 @@
 
 | 경로 | 용도 |
 |---|---|
-| `setup_live.py` | 프로그램 본체. GUI 또는 `--no-gui` 지정 시 CLI |
+| `setup_live.py` | 프로그램 본체. GUI 또는 `--no-gui` 지정 시 CLI. `--assets 경로`로 배너 폴더 지정 가능 |
 | `template/scenes.json` | OBS에서 내보낸 장면 컬렉션 원본 (Mac). 수정 시 OBS에서 다시 내보내 교체 |
 | `assets/` | 기본 프드프 배너 (exe에 내장). 강사 배너 폴더의 양식 |
 | `make_package.py` | 강사 전달용 zip 만들기 |
@@ -60,7 +60,10 @@ exe는 모든 강사 공통이고, 배너만 강사별로 바꾼다. 배너가 �
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/python setup_live.py                       # GUI
 .venv/bin/python setup_live.py --no-gui                   # 창 없이 바로 실행
+.venv/bin/python setup_live.py --no-gui --assets "경로"    # 강사 배너 폴더를 직접 지정
 ```
+
+Mac 강사에게 배포하는 방법(구글 드라이브)은 `README-mac.md` 참고.
 
 ## 알려진 제약
 

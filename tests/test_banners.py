@@ -43,6 +43,18 @@ class BannerTests(unittest.TestCase):
         make_banners(self.tmp / "assets")
         self.assertEqual(sl.banner_source(self.tmp), (self.tmp / "assets", True))
 
+    def test_explicit_folder_wins_over_folder_next_to_exe(self):
+        make_banners(self.tmp / "assets")
+        make_banners(self.tmp / "드라이브" / "배너" / "assets")
+        chosen = self.tmp / "드라이브" / "배너" / "assets"
+        self.assertEqual(sl.banner_source(self.tmp, chosen), (chosen, True))
+
+    def test_explicit_folder_is_used_even_when_it_is_missing(self):
+        """없는 경로를 넘기면 기본 배너로 조용히 빠지지 않고 그대로 돌려줘 banner_problems가 알려 주게 한다."""
+        chosen = self.tmp / "없는폴더"
+        self.assertEqual(sl.banner_source(self.tmp, chosen), (chosen, True))
+        self.assertTrue(sl.banner_problems(chosen))
+
     def test_builtin_banners_are_complete(self):
         self.assertEqual(sl.banner_problems(DEFAULT), [])
 

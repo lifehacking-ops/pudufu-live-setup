@@ -259,8 +259,11 @@ def running_inside_zip(folder: Path) -> bool:
     return re.search(r"\.zip([\\/]|$)", str(folder), re.IGNORECASE) is not None
 
 
-def banner_source(folder: Path):
-    """(배너 폴더, 강사 배너 여부). folder 안에 assets 폴더가 있으면 강사 배너, 없으면 exe에 내장된 기본 배너."""
+def banner_source(folder: Path, override: Path = None):
+    """(배너 폴더, 강사 배너 여부). override(--assets)가 있으면 그 폴더.
+    없으면 folder 안에 assets 폴더가 있을 때 강사 배너, 아니면 exe에 내장된 기본 배너."""
+    if override is not None:
+        return override, True
     default = BASE / "assets"
     ext = folder / "assets"
     if ext.is_dir() and ext.resolve() != default.resolve():
@@ -427,16 +430,17 @@ def attach_devices(cl, log):
 STEPS = ["OBS 설치 확인", "배너·장면 설치", "송출 설정", "OBS 실행", "웹캠·모니터 연결"]
 
 
-def run_setup(log, step=lambda i: None):
-    """step(i): i번째(1부터) 단계 시작을 알린다. GUI가 진행 표시에 쓴다."""
+def run_setup(log, step=lambda i: None, assets: Path = None):
+    """step(i): i번째(1부터) 단계 시작을 알린다. GUI가 진행 표시에 쓴다.
+    assets: 강사 배너 폴더를 직접 지정(--assets). 없으면 exe 옆 assets 폴더 → 내장 기본 배너 순."""
     if obs_running():
         raise RuntimeError("OBS가 이미 켜져 있습니다. OBS를 완전히 종료한 뒤 다시 실행해 주세요.")
     if running_inside_zip(app_dir()):
         raise RuntimeError("압축 파일 안에서 바로 실행했습니다. 압축을 먼저 풀고, 푼 폴더에서 다시 실행해 주세요.")
-    src, custom = banner_source(app_dir())
+    src, custom = banner_source(app_dir(), assets)
     problems = banner_problems(src)
     if problems:
-        raise RuntimeError("배너 폴더(assets)를 확인해 주세요.\n- " + "\n- ".join(problems))
+        raise RuntimeError(f"배너 폴더를 확인해 주세요: {src}\n- " + "\n- ".join(problems))
 
     step(1)
     exe = find_obs_exe() or install_obs(log)
@@ -445,7 +449,7 @@ def run_setup(log, step=lambda i: None):
     step(2)
     asset_dir = cfg / FILE_STEM / "assets"
     install_banners(src, asset_dir)
-    log(f"배너 설치: {'강사 배너(exe 옆 assets 폴더)' if custom else '기본 프드프 배너'} → {asset_dir}")
+    log(f"배너 설치: {f'강사 배너({src})' if custom else '기본 프드프 배너'} → {asset_dir}")
 
     template = json.loads((BASE / "template" / "scenes.json").read_text(encoding="utf-8"))
     collection = build_collection(template, asset_dir)
@@ -486,7 +490,7 @@ def run_setup(log, step=lambda i: None):
 
 
 # ──────────────────────────── GUI ────────────────────────────
-def gui():
+def gui(assets: Path = None):
     import threading
     import tkinter as tk
     from tkinter import scrolledtext, ttk
@@ -586,7 +590,7 @@ def gui():
 
         def work():
             try:
-                custom = run_setup(log, step)
+                custom = run_setup(log, step, assets)
 
                 def done():
                     if icons[state["cur"]].cget("text") == "▶":
@@ -618,11 +622,13 @@ def gui():
 def main():
     ap = argparse.ArgumentParser(description="프드프 라이브 OBS 자동 세팅")
     ap.add_argument("--no-gui", action="store_true", help="창 없이 바로 실행")
+    ap.add_argument("--assets", type=Path, help="강사 배너 폴더 (지정하지 않으면 exe 옆 assets 폴더 → 내장 기본 배너)")
     a = ap.parse_args()
+    assets = a.assets.expanduser().resolve() if a.assets else None
     if a.no_gui:
-        run_setup(print)
+        run_setup(print, assets=assets)
     else:
-        gui()
+        gui(assets)
 
 
 if __name__ == "__main__":
